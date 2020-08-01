@@ -1,5 +1,5 @@
 import React from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import styled from 'styled-components';
 import { fakeData } from './fakeData';
 import { PhoneNumberData } from './PhoneNumberDataInterface';
@@ -42,7 +42,8 @@ export default (props: PropsShape) => (
             <p>Campaign Start Date: Click to add</p>
             <p>Total Filtered Calls: {totalFilteredCalls}</p>
             <p>Status: {recordStatus}</p>
-            <LineChart width={320} height={400} data={dataItem.callData}>
+            <ResponsiveContainer width="80%" height={200}>
+            <LineChart width={700} height={300} data={dataItem.callData}>
               <Line type="monotone" dataKey="rawCallCount" stroke="#8884d8" />
               <Line type="monotone" dataKey="filteredCallCount" stroke="#666" />
               <CartesianGrid stroke="#ccc" />
@@ -50,21 +51,12 @@ export default (props: PropsShape) => (
               <YAxis />
               <Tooltip wrapperStyle={tooltipWrapperStyle} />
             </LineChart>
+            </ResponsiveContainer>
           </WrappedHeaderLine>
         </OuterContainer>
       )
     })
-
     }
-    <p>Phone numbers here</p>
-
-    <LineChart width={320} height={400} data={data2}>
-      <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-      <CartesianGrid stroke="#ccc" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip wrapperStyle={tooltipWrapperStyle} />
-    </LineChart>
   </section>
 );
 
