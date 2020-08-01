@@ -1,33 +1,14 @@
 import React from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-import { NONAME } from 'dns';
+import styled from 'styled-components';
+import { fakeData } from './fakeData';
+import { PhoneNumberData } from './PhoneNumberDataInterface';
+import Utilities from "../Utilities";
+import { WeeklyCallData } from "./WeeklyCallDataInterface";
 
-interface SingleCallData {
-  sourceNumber: string,
-  destinationNumber: string,
-  callTime: string
-}
+const data = fakeData
 
-interface NumberData {
-  phoneNumber: string,
-  campaignName: string | null,
-  callData: Array<SingleCallData>
-}
-
-const fakeData: NumberData[] = [
-  { phoneNumber: "8332818870", campaignName: "Birm. Investor - A", callData: [
-    { sourceNumber: "3823844123", destinationNumber: "8332818870", callTime: "00:32" },
-    { sourceNumber: "8323844123", destinationNumber: "2332818870", callTime: "00:12" }
-  ] },
-  { phoneNumber: "2632818870", campaignName: null, callData: [
-    { sourceNumber: "3823844123", destinationNumber: "8332818870", callTime: "00:32" },
-    { sourceNumber: "8323844123", destinationNumber: "2332818870", callTime: "00:12" }
-  ] },
-];
-
-interface PropsShape {}
-
-const data = [
+const data2 = [
   {name: 'Page A', uv: 400, pv: 2400, amt: 2400},
   {name: 'Page B', uv: 500, pv: 2400, amt: 2400},
   {name: 'Page C', uv: 800, pv: 2400, amt: 2400},
@@ -36,20 +17,48 @@ const data = [
 ];
 
 const tooltipWrapperStyle = { 
-  width: 100, 
   border: "1px solid black !important",
   padding: "0 !important",
   margin: "0 !important"
 }
 
+interface PropsShape {}
+
 export default (props: PropsShape) => (
   <section>
-    { fakeData.map
+    { fakeData.map((dataItem: PhoneNumberData) => {
+      const totalFilteredCalls = sumFilteredWeeklyCallCounts(dataItem.callData);
+
+      const recordStatus: string = Utilities.capitalize(dataItem.status);
+
+      return (
+        <OuterContainer>
+          <WrappedHeaderLine>
+            <p>{dataItem.phoneNumber}</p>
+            <p>{dataItem.campaignName || "Click to add a campaign name"}</p>
+          </WrappedHeaderLine>
+
+          <WrappedHeaderLine>
+            <p>Campaign Start Date: Click to add</p>
+            <p>Total Filtered Calls: {totalFilteredCalls}</p>
+            <p>Status: {recordStatus}</p>
+            <LineChart width={320} height={400} data={dataItem.callData}>
+              <Line type="monotone" dataKey="rawCallCount" stroke="#8884d8" />
+              <Line type="monotone" dataKey="filteredCallCount" stroke="#666" />
+              <CartesianGrid stroke="#ccc" />
+              <XAxis dataKey="weekMonthYear" />
+              <YAxis />
+              <Tooltip wrapperStyle={tooltipWrapperStyle} />
+            </LineChart>
+          </WrappedHeaderLine>
+        </OuterContainer>
+      )
+    })
 
     }
-    <p>Phone numbers here. update 1</p>
+    <p>Phone numbers here</p>
 
-    <LineChart width={320} height={400} data={data}>
+    <LineChart width={320} height={400} data={data2}>
       <Line type="monotone" dataKey="uv" stroke="#8884d8" />
       <CartesianGrid stroke="#ccc" />
       <XAxis dataKey="name" />
@@ -58,3 +67,21 @@ export default (props: PropsShape) => (
     </LineChart>
   </section>
 );
+
+const WrappedHeaderLine = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  max-width: 1200px;
+`;
+
+const OuterContainer = styled.div`
+  border: 1px solid darkturquoise;
+`;
+
+
+function sumFilteredWeeklyCallCounts(weeklyCounts: Array<WeeklyCallData>): number {
+  return weeklyCounts.reduce((runningTotal: number, currentObject) => {
+    return runningTotal + currentObject.filteredCallCount;
+  }, 0)
+}
