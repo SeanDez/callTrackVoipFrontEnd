@@ -27,14 +27,14 @@ interface PropsShape {}
 export default (props: PropsShape) => (
   <section>
     { fakeData.map((dataItem: PhoneNumberData) => {
+      const formattedPhoneNumber = formatIntoUSAStylePhoneNumber(dataItem.phoneNumber);
       const totalFilteredCalls = sumFilteredWeeklyCallCounts(dataItem.callData);
-
       const recordStatus: string = Utilities.capitalize(dataItem.status);
 
       return (
         <OuterContainer>
           <WrappedHeaderLine>
-            <p>{dataItem.phoneNumber}</p>
+            <p>{formattedPhoneNumber}</p>
             <p>{dataItem.campaignName || "Click to add a campaign name"}</p>
           </WrappedHeaderLine>
 
@@ -76,4 +76,17 @@ function sumFilteredWeeklyCallCounts(weeklyCounts: Array<WeeklyCallData>): numbe
   return weeklyCounts.reduce((runningTotal: number, currentObject) => {
     return runningTotal + currentObject.filteredCallCount;
   }, 0)
+}
+
+function formatIntoUSAStylePhoneNumber(phoneNumber: string): string {
+  const tooLong = phoneNumber.length > 11;
+  const tooShort = phoneNumber.length < 10;
+  if (tooLong || tooShort) { return phoneNumber; };
+
+  const p = phoneNumber;
+  if (phoneNumber.length === 11) {
+    return `+${p[0]} (${p[1]}${p[2]}${p[3]}) ${p[4]}${p[5]}${p[6]}-${p[7]}${p[8]}${p[9]}${p[10]}`
+  }
+
+  return `(${p[0]}${p[1]}${p[2]}) ${p[3]}${p[4]}${p[5]}-${p[6]}${p[7]}${p[8]}${p[9]}`;
 }
