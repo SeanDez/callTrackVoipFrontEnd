@@ -1,5 +1,14 @@
-* {
+body {
+  height: 100vh;
   background-color: black;
+  color: white;
+}
+
+a {
+  color: yellow;
+}
+
+a:visited {
   color: lightblue;
 }
 
