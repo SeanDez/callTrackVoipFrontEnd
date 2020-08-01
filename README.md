@@ -2,7 +2,7 @@
 
 #### Currently in pre-alpha status
 
-Call Trackre for Voip.ms is designed to help people who use the Voip.ms service for phone campaigns to assess their results in a nice dashboard interface.
+Call Tracker for Voip.ms is designed to help people who use the Voip.ms service for phone campaigns to assess their results in a nice dashboard interface.
 
 The app pulls call data from your Voip.ms account and gives you performance metrics, including calls per month and per campaign.
 
