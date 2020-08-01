@@ -1,6 +1,9 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import NavMenu from "./navigation/NavMenu";
+import PhoneCalls from "./phoneCalls/PhoneCalls";
+import Settings from "./settings/Settings";
 
 import './App.css';
 
@@ -9,7 +12,15 @@ function App() {
     <div>
       <BrowserRouter>
         <NavMenu />
-        <p>placeholder</p>
+
+        <main>
+          <Switch>
+            <Route path="/numbers"><PhoneCalls /></Route>
+            <Route path='/settings'><Settings /></Route>
+          </Switch>
+        </main>
+        
+
       </BrowserRouter>
     </div>
   );
