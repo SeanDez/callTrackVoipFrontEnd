@@ -12,11 +12,13 @@ interface PropsShape {
   userName?: { label?: string, htmlName?: string },
   password?: { label?: string, htmlName?: string },
   saveButton?: boolean,
+  repeatPasswordField?: boolean
 }
 
 export default (props: PropsShape) => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
 
   return (
     <section>
@@ -36,7 +38,7 @@ export default (props: PropsShape) => {
             />
           </FormControl>
           <FormControl>
-            <InputLabel htmlFor={ props.password && props.password.htmlName || 'username' }>
+            <InputLabel htmlFor={ props.password && props.password.htmlName || 'password' }>
               { props.password && props.password.label || "Password" }
             </InputLabel>
             <Input 
@@ -45,6 +47,19 @@ export default (props: PropsShape) => {
               onChange={e => setPassword(e.target.value)}
             />
           </FormControl>
+
+          { props.repeatPasswordField && 
+            <FormControl>
+            <InputLabel htmlFor='repeatPassword'>
+              Repeat Password
+            </InputLabel>
+            <Input 
+              type="repeatPassword"
+              value={repeatPassword}
+              onChange={e => setRepeatPassword(e.target.value)}
+            />
+          </FormControl>
+          }
 
           { props.saveButton && 
             <StyledButton
