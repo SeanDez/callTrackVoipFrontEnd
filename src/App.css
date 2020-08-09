@@ -4,6 +4,10 @@ body {
   color: white;
 }
 
+::placeholder {
+  color: white;
+}
+
 a {
   color: yellow;
 }
@@ -16,7 +20,13 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 
-header, section {
+header {
+  width: 100vw;
+
+}
+
+section {
   width: 80vw;
   max-width: 1200px;
+  margin: 0 auto;
 }

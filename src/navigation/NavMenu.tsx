@@ -34,9 +34,9 @@ export default (props: PropsShape) => {
 const HorizontalList = styled.ul`
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: space-between;
   list-style-type: none;
-  border: 4px dotted pink;
+  border: 2px dotted pink;
   width: 90vw;
   max-width: 1200px;
 
