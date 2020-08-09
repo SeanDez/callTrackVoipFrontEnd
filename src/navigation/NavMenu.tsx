@@ -38,11 +38,12 @@ export default (props: PropsShape) => {
 const HorizontalList = styled.ul`
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   list-style-type: none;
   border: 2px dotted pink;
   width: 90vw;
   max-width: 1200px;
+  padding-left: 0;
 
   & > * {
     text-decoration: none;

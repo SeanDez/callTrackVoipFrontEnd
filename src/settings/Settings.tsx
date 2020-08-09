@@ -2,14 +2,8 @@ import 'es6-promise';
 import 'isomorphic-fetch';
 import path from 'path';
 import React, { useState } from 'react';
-import styled from 'styled-components';
 
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import Button from '@material-ui/core/Button';
-
-interface PropsShape {}
+import EmailPasswordBox from '../shared/EmailPasswordBox';
 
 enum UpdateTarget {
   userName = "userName",
@@ -37,54 +31,19 @@ async function updateAccountDetail(userId: number, targetColumn: UpdateTarget, n
   }
 }
 
+interface PropsShape {}
+
 export default (props: PropsShape) => {
-  const [voipUserName, setVoipUserName] = useState("");
-  const [voipPassword, setVoipPassword] = useState("");
 
   return (
-    <section>
-      <form>
-        <FormContainer>
-          <FormControl>
-            <InputLabel htmlFor="voipUsername">Voip.ms Username</InputLabel>
-            <Input 
-              type="text"
-              value={voipUserName}
-              onChange={e => setVoipUserName(e.target.value)}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="voipPassword">Voip.ms Password</InputLabel>
-            <Input 
-              type="password"
-              value={voipUserName}
-              onChange={e => setVoipUserName(e.target.value)}
-            />
-          </FormControl>
-
-          <Button
-            type='submit'
-            onClick={e => {
-              e.preventDefault();
-              console.log("voip username", voipUserName);
-              console.log('voip password', voipPassword);
-            }}
-            variant="outlined"
-            color="primary"
-          >
-            Save
-          </Button>
-        </FormContainer>
-
-      </form>
-    </section>
-  );
-} 
-
-
-const FormContainer = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  border: 2px dashed blue;
-`;
+    <div>
+      <EmailPasswordBox
+        title="Update Voip.ms Details"
+        instructions="You may update your username, password, or both together."
+        userName={{ label: "Voip.ms Username", htmlName: "voipUsername"  }} 
+        password={{ label: "Voip.ms Password", htmlName: "voipPassword"  }} 
+        saveButton
+      />
+    </div>
+  )
+}

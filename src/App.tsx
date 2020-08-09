@@ -6,7 +6,7 @@ import NavMenu from "./navigation/NavMenu";
 import PhoneCalls from "./phoneCalls/PhoneCalls";
 import Settings from "./settings/Settings";
 
-import './App.css';
+import './App.scss';
 
 function App() {
   const [authenticationLevel, setAuthenticationLevel]: [AuthLevels, Function] = useState(AuthLevels.visitor);
