@@ -6,18 +6,25 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 
+
+interface DynamicControlledInput { 
+  label: string, 
+  htmlName: string, 
+  value: string,
+  parentStateUpdater: Function
+}
+
 interface PropsShape {
   title: string,
   instructions?: string,
-  userName?: { label?: string, htmlName?: string },
-  password?: { label?: string, htmlName?: string },
-  saveButton?: boolean,
+  userName: DynamicControlledInput,
+  password: DynamicControlledInput,
+  submitButton?: boolean,
   repeatPasswordField?: boolean
+  singleFieldCallback?: <ReturnType extends string>(field: string, value: string) => ReturnType
 }
 
 export default (props: PropsShape) => {
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
 
   return (
@@ -28,23 +35,23 @@ export default (props: PropsShape) => {
           <InstructionText>{ props.instructions }</InstructionText>
           <FormControl>
             <InputLabel htmlFor={ props.userName && props.userName.htmlName || 'username' }>
-              { props.userName && props.userName.label || "Username" }
+              { props.userName.label || "Username" }
             </InputLabel>
             <Input 
               type="text"
-              value={userName}
-              onChange={e => setUserName(e.target.value)}
-              name={ props.userName && props.userName.htmlName || 'username' }
+              value={props.userName.value}
+              onChange={e => props.userName.parentStateUpdater(e.target.value)}
+              name={ props.userName.htmlName || 'username' }
             />
           </FormControl>
           <FormControl>
-            <InputLabel htmlFor={ props.password && props.password.htmlName || 'password' }>
-              { props.password && props.password.label || "Password" }
+            <InputLabel htmlFor={ props.password.htmlName || 'password' }>
+              { props.password.label || "Password" }
             </InputLabel>
             <Input 
               type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
+              value={props.password.value}
+              onChange={e => props.password.parentStateUpdater(e.target.value)}
             />
           </FormControl>
 
@@ -61,13 +68,13 @@ export default (props: PropsShape) => {
           </FormControl>
           }
 
-          { props.saveButton && 
+          { props.submitButton && 
             <StyledButton
               type='submit'
               onClick={e => {
                 e.preventDefault();
-                console.log("username", userName);
-                console.log('password', password);
+                console.log("username", props.userName.value);
+                console.log('password', props.password.value);
               }}
               variant="outlined"
               color="primary"

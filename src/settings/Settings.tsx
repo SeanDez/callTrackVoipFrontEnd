@@ -34,15 +34,16 @@ async function updateAccountDetail(userId: number, targetColumn: UpdateTarget, n
 interface PropsShape {}
 
 export default (props: PropsShape) => {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <div>
       <EmailPasswordBox
         title="Update Voip.ms Details"
-        instructions="You may update your username, password, or both together."
-        userName={{ label: "Voip.ms Username", htmlName: "voipUsername"  }} 
-        password={{ label: "Voip.ms Password", htmlName: "voipPassword"  }} 
-        saveButton
+        instructions="Update your Voip.ms account details below"
+        userName={{ label: "Voip.ms Username", htmlName: "voipUsername", value: userName, parentStateUpdater: setUserName }} 
+        password={{ label: "Voip.ms Password", htmlName: "voipPassword", value: password, parentStateUpdater: setPassword }} 
       />
     </div>
   )
