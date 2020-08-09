@@ -1,18 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import AuthLevels from '../shared/AuthLevels';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import StyledLink from "../shared/StyledLink";
-
-interface DataObject { displayName: string, slug: string }
-
-const linkData: Array<DataObject> = [
-  { displayName: 'Phone Numbers', slug: 'numbers' },
-  { displayName: 'Settings', slug: 'settings' },
-];
-
-interface PropsShape {}
+interface PropsShape {
+  authenticationLevel: AuthLevels
+}
 
 export default (props: PropsShape) => {
 
@@ -21,9 +16,18 @@ export default (props: PropsShape) => {
       <AppBar position="static">
         <Toolbar>
           <HorizontalList>
-            { linkData.map((dataItem: DataObject) => (
-              <StyledLink to={dataItem.slug}>{dataItem.displayName}</StyledLink>
-            )) }
+            { props.authenticationLevel === AuthLevels.authUser && 
+              <>
+                <StyledLink to='/numbers'>Phone Numbers</StyledLink>
+                <StyledLink to='/settings'>Settings</StyledLink>
+              </>
+            }
+            { props.authenticationLevel === AuthLevels.visitor && 
+              <>
+                <StyledLink to='/log-in'>Log In</StyledLink>
+                <StyledLink to='/sign-up'>Sign Up</StyledLink>
+              </>
+            }
           </HorizontalList>
         </Toolbar>
       </AppBar>
