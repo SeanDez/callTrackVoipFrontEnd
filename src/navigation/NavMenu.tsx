@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import AuthLevels from '../shared/AuthLevels';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import StyledLink from "../shared/StyledLink";
+
 interface PropsShape {
-  authenticationLevel: AuthLevels
+  isAuthenticated: boolean
 }
 
 export default (props: PropsShape) => {
@@ -16,13 +16,13 @@ export default (props: PropsShape) => {
       <AppBar position="static">
         <Toolbar>
           <HorizontalList>
-            { props.authenticationLevel === AuthLevels.authUser && 
+            { props.isAuthenticated && 
               <>
                 <StyledLink to='/numbers'>Phone Numbers</StyledLink>
                 <StyledLink to='/settings'>Settings</StyledLink>
               </>
             }
-            { props.authenticationLevel === AuthLevels.visitor && 
+            { props.isAuthenticated === false && 
               <>
                 <StyledLink to='/log-in'>Log In</StyledLink>
                 <StyledLink to='/sign-up'>Sign Up</StyledLink>
