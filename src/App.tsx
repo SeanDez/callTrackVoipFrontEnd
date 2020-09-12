@@ -20,14 +20,14 @@ async function testExpressConnection() {
   console.log('testExpressConnection before try block');
   try {
     console.log('testExpressConnection inside try block');
-    const response = await fetch(process.env.REACT_APP_BACKEND_DOMAIN!, {
+    const response = await fetch('http://localhost:6800/', {
       method: 'get',
       mode: 'cors',
       headers: {
         'content-type': 'application/json'
       }
     });
-    console.log('response to testExpressConnection', testExpressConnection);
+    console.log('response to testExpressConnection', response);
     const json = await response.json();  
     console.log(json);
     return json;
@@ -38,7 +38,7 @@ async function testExpressConnection() {
 
 // do an initial request to see if the user is logged in already
 async function seeIfActiveUserSession(setIsAuthenticated: Function) {
-  const authCheckEndpoint = `${process.env.REACT_APP_BACKEND_DOMAIN}/authCheck`;
+  const authCheckEndpoint = `/authCheck`;
 
   try {
     const response = await fetch(authCheckEndpoint, {
@@ -62,7 +62,7 @@ async function seeIfActiveUserSession(setIsAuthenticated: Function) {
 }
 
 async function fetchAndSetCampaignAndCallData(setCampaignCallData: Function) {
-  const accountDataEndpoint = `${process.env.REACT_APP_BACKEND_DOMAIN}/accountData`;
+  const accountDataEndpoint = `/accountData`;
   console.log('accountDataEndpoint', accountDataEndpoint)
 
   try {
@@ -105,13 +105,13 @@ function App() {
     If auth, fetch data, assign to state
   */
   useEffect(() => {
-    // seeIfActiveUserSession(setIsAuthenticated);
+    seeIfActiveUserSession(setIsAuthenticated);
 
     // fetch data only if isAuth changes, and is true
     // no await. The promise resolution is unclear
-    // if (isAuthenticated) {
-    //   fetchAndSetCampaignAndCallData(setCampaignCallData);
-    // }
+    if (isAuthenticated) {
+      fetchAndSetCampaignAndCallData(setCampaignCallData);
+    }
   }, [isAuthenticated])
 
   useEffect(() => {
