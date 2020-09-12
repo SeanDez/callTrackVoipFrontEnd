@@ -1,5 +1,5 @@
 export interface WeeklyCallData {
-  weekMonthYear: string,
+  yearWeek: string,
   rawCallCount: number,
   filteredCallCount: number
 }

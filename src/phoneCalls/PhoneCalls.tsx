@@ -1,20 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import styled from 'styled-components';
 import { fakeData } from './fakeData';
-import { PhoneNumberData } from './PhoneNumberDataInterface';
+import { PhoneNumberData } from './interfaces/IPhoneNumberData';
 import Utilities from "../Utilities";
-import { WeeklyCallData } from "./WeeklyCallDataInterface";
+import { WeeklyCallData } from "./interfaces/IWeeklyCallData";
+import DataFormatter from './DataFormatter';
 
 const data = fakeData
-
-const data2 = [
-  {name: 'Page A', uv: 400, pv: 2400, amt: 2400},
-  {name: 'Page B', uv: 500, pv: 2400, amt: 2400},
-  {name: 'Page C', uv: 800, pv: 2400, amt: 2400},
-  {name: 'P D', uv: 400, pv: 2400, amt: 2400},
-  {name: 'Page E', uv: 300, pv: 2400, amt: 2400},
-];
 
 const tooltipWrapperStyle = { 
   border: "1px solid black !important",
@@ -22,43 +15,55 @@ const tooltipWrapperStyle = {
   margin: "0 !important"
 }
 
-interface PropsShape {}
+interface PropsShape {
+  
+}
 
-export default (props: PropsShape) => (
-  <section>
-    { fakeData.map((dataItem: PhoneNumberData) => {
-      const formattedPhoneNumber = formatIntoUSAStylePhoneNumber(dataItem.phoneNumber);
-      const totalFilteredCalls = sumFilteredWeeklyCallCounts(dataItem.callData);
-      const recordStatus: string = Utilities.capitalize(dataItem.status);
+export default (props: PropsShape) => { 
+  const [formattedData, setFormattedData] = useState(null);
 
-      return (
-        <OuterContainer>
-          <WrappedHeaderLine>
-            <p>{formattedPhoneNumber}</p>
-            <p>{dataItem.campaignName || "Click to add a campaign name"}</p>
-          </WrappedHeaderLine>
+  useEffect(() => {
+    // take the data from props
+    // format it here, since each view formats it differently
+    // set it to state
+  });
+  
+  return (
+    <section>
+      { fakeData.map((dataItem: PhoneNumberData, index: number) => {
+        const formattedPhoneNumber = formatIntoUSAStylePhoneNumber(dataItem.phoneNumber);
+        const totalFilteredCalls = sumFilteredWeeklyCallCounts(dataItem.callData);
+        const recordStatus: string = Utilities.capitalize(dataItem.status);
 
-          <WrappedHeaderLine>
-            <p>Campaign Start Date: Click to add</p>
-            <p>Total Filtered Calls: {totalFilteredCalls}</p>
-            <p>Status: {recordStatus}</p>
-            <ResponsiveContainer width="80%" height={200}>
-            <LineChart width={700} height={300} data={dataItem.callData}>
-              <Line type="monotone" dataKey="rawCallCount" stroke="#8884d8" />
-              <Line type="monotone" dataKey="filteredCallCount" stroke="#666" />
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="weekMonthYear" />
-              <YAxis />
-              <Tooltip wrapperStyle={tooltipWrapperStyle} />
-            </LineChart>
-            </ResponsiveContainer>
-          </WrappedHeaderLine>
-        </OuterContainer>
-      )
-    })
-    }
-  </section>
-);
+        return (
+          <OuterContainer key={index}>
+            <WrappedHeaderLine>
+              <p>{formattedPhoneNumber}</p>
+              <p>{dataItem.campaignName || "Click to add a campaign name"}</p>
+            </WrappedHeaderLine>
+
+            <WrappedHeaderLine>
+              <p>Campaign Start Date: Click to add</p>
+              <p>Total Filtered Calls: {totalFilteredCalls}</p>
+              <p>Status: {recordStatus}</p>
+              <ResponsiveContainer width="80%" height={200}>
+              <LineChart width={700} height={300} data={dataItem.callData}>
+                <Line type="monotone" dataKey="rawCallCount" stroke="#8884d8" />
+                <Line type="monotone" dataKey="filteredCallCount" stroke="#666" />
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="yearWeek" />
+                <YAxis />
+                <Tooltip wrapperStyle={tooltipWrapperStyle} />
+              </LineChart>
+              </ResponsiveContainer>
+            </WrappedHeaderLine>
+          </OuterContainer>
+        )
+      })
+      }
+    </section>
+  );
+}
 
 const WrappedHeaderLine = styled.div`
   display: flex;

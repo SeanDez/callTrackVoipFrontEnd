@@ -15,8 +15,10 @@ export default (props: PropsShape) => {
 
     <main>
       <Switch>
-        <Route path="/numbers"><PhoneCalls /></Route>
         <Route path='/settings'><Settings /></Route>
+        
+        {/* catch-all auth route */}
+        <Route><PhoneCalls /></Route>
       </Switch>
     </main>
   </div>

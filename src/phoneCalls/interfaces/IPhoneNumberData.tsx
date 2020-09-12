@@ -1,5 +1,5 @@
-import { WeeklyCallData } from './WeeklyCallDataInterface';
-import { PhoneNumberStatuses } from './PhoneNumberStatuses';
+import { WeeklyCallData } from './IWeeklyCallData';
+import { PhoneNumberStatuses } from '../EPhoneNumberStatuses';
 
 export interface PhoneNumberData {
   phoneNumber: string;
