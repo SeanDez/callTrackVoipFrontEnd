@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import 'es6-promise';
 import 'isomorphic-fetch';
 import dotenv from 'dotenv';
@@ -62,7 +62,7 @@ async function seeIfActiveUserSession(setIsAuthenticated: Function) {
 }
 
 async function fetchAndSetCampaignAndCallData(setCampaignCallData: Function) {
-  const accountDataEndpoint = `/accountData`;
+  const accountDataEndpoint = `http://localhost:6800/accountData`;
   console.log('accountDataEndpoint', accountDataEndpoint)
 
   try {
@@ -75,6 +75,7 @@ async function fetchAndSetCampaignAndCallData(setCampaignCallData: Function) {
     });
 
     const accountData = await response.json();
+    console.log(accountData);
     setCampaignCallData(accountData);
   } catch (error) {
     throw new Error(error);
@@ -86,7 +87,7 @@ function App() {
   // state and path variables
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticated]: [boolean, Function] = useState(true);
+  const [isAuthenticated, setIsAuthenticated]: [boolean, Function] = useState(false);
   const [campaignCallData, setCampaignCallData] = useState(null);
   const [accountData, setAccountData] = useState([]);
 
@@ -94,7 +95,7 @@ function App() {
     const currentTimestamp = moment();
     console.log('Updated at: ', currentTimestamp.format('YYYY-MM-DD hh:mm:ssa Z'));
 
-    testExpressConnection();
+    // testExpressConnection();
   })
 
   /*
@@ -105,27 +106,27 @@ function App() {
     If auth, fetch data, assign to state
   */
   useEffect(() => {
-    seeIfActiveUserSession(setIsAuthenticated);
+    // seeIfActiveUserSession(setIsAuthenticated);
 
     // fetch data only if isAuth changes, and is true
     // no await. The promise resolution is unclear
     if (isAuthenticated) {
-      fetchAndSetCampaignAndCallData(setCampaignCallData);
+      // fetchAndSetCampaignAndCallData(setCampaignCallData);
     }
   }, [isAuthenticated])
 
   useEffect(() => {
-    console.log('campaignCallData', campaignCallData)
+    // console.log('campaignCallData', campaignCallData)
   }, [campaignCallData]);
 
   // conditional render
   if (isLoading) {
     return <Loader />
   } else if (isAuthenticated) {
-    return <AuthView />
+    return <AuthView isAuthenticated={isAuthenticated} />
   }
 
-  return <VisitorView />
+  return <VisitorView isAuthenticated={isAuthenticated} />
 }
 
 export default App;

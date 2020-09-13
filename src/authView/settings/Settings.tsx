@@ -3,7 +3,7 @@ import 'isomorphic-fetch';
 import path from 'path';
 import React, { useState } from 'react';
 
-import EmailPasswordBox from '../shared/EmailPasswordBox';
+import EmailPasswordBox from '../../shared/EmailPasswordBox';
 
 enum UpdateTarget {
   userName = "userName",

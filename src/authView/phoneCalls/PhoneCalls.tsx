@@ -3,7 +3,7 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContai
 import styled from 'styled-components';
 import { fakeData } from './fakeData';
 import { PhoneNumberData } from './interfaces/IPhoneNumberData';
-import Utilities from "../Utilities";
+import Utilities from "../../Utilities";
 import { WeeklyCallData } from "./interfaces/IWeeklyCallData";
 import DataFormatter from './DataFormatter';
 
