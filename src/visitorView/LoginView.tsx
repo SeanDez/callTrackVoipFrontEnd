@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'isomorphic-fetch';
 import dotenv from 'dotenv';
 
@@ -31,19 +31,31 @@ async function handleSubmit(event: any, userName: string, password: string) {
   submitLoginInfo(userName, password);
 }
 
-
 export default (props: PropsShape) => {
   const [localUserName, setLocalUserName] = useState('');
   const [localPassword, setLocalPassword] = useState('');
 
+  // log every state change to the console
+  useEffect(() => {
+    console.log(localUserName);
+  }, [localUserName]);
+
+  useEffect(() => {
+    console.log(localPassword)
+  }, [localPassword]);
+
   return (
     <div>
       <form>
-        <label>Username</label>
-        <input type='text' value={localUserName} onChange={e => setLocalUserName(e.target.value)} />
+        <div>
+          <label>Username</label>
+          <input type='text' value={localUserName} onChange={e => setLocalUserName(e.target.value)} />
+        </div>
 
-        <label>Password</label>
-        <input type='password' value={localPassword} onChange={e => setLocalPassword(e.target.value)} />
+        <div>
+          <label>Password</label>
+          <input type='password' value={localPassword} onChange={e => setLocalPassword(e.target.value)} />
+        </div>
 
         <button
           onClick={e => handleSubmit(e, localUserName, localPassword) }
