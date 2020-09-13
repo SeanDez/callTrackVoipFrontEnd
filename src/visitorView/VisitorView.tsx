@@ -14,8 +14,8 @@ export default (props: PropsShape) => (
     <NavMenu isAuthenticated={props.isAuthenticated} />
 
     <Switch>
-      <Route to='/log-in'><LoginView /></Route>
-      <Route to='/' exact><SalesPage /></Route>
+      <Route path='/log-in'><LoginView /></Route>
+      <Route path='/' exact><SalesPage /></Route>
     </Switch>
   </div>
 )
