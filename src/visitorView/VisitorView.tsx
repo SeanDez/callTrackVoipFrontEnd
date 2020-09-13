@@ -7,6 +7,7 @@ import LoginView from './LoginView';
 
 interface PropsShape {
   isAuthenticated: boolean;
+  setIsAuthenticated: Function;
 }
 
 export default (props: PropsShape) => (
@@ -14,7 +15,7 @@ export default (props: PropsShape) => (
     <NavMenu isAuthenticated={props.isAuthenticated} />
 
     <Switch>
-      <Route path='/log-in'><LoginView /></Route>
+      <Route path='/log-in'><LoginView setIsAuthenticated={props.setIsAuthenticated} /></Route>
       <Route path='/' exact><SalesPage /></Route>
     </Switch>
   </div>

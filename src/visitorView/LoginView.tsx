@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import 'isomorphic-fetch';
 import dotenv from 'dotenv';
 
-interface PropsShape {}
+interface PropsShape {
+  setIsAuthenticated: Function;
+}
 
-async function submitLoginInfo(localUserName: string, localPassword: string) {
-  const loginRoute = `${process.env.REACT_APP_BACKEND_DOMAIN}/log-in`;
+async function submitLoginInfo(localUserName: string, localPassword: string, props: PropsShape) {
+  const loginRoute = `${process.env.REACT_APP_BACKEND_DOMAIN}/login`;
   const loginParams = { localUserName, localPassword };
   const requestBody = JSON.stringify(loginParams);
 
@@ -20,15 +22,20 @@ async function submitLoginInfo(localUserName: string, localPassword: string) {
     })
 
     const responseData = response.json();
+
+    if (typeof responseData !== 'undefined') {
+      props.setIsAuthenticated(true);
+    }
+
     return responseData;
   } catch (error) {
     throw new Error(error);
   }
 }
 
-async function handleSubmit(event: any, userName: string, password: string) {
+async function handleSubmit(event: any, userName: string, password: string, props: PropsShape) {
   event.preventDefault(); 
-  submitLoginInfo(userName, password);
+  submitLoginInfo(userName, password, props);
 }
 
 export default (props: PropsShape) => {
@@ -58,7 +65,7 @@ export default (props: PropsShape) => {
         </div>
 
         <button
-          onClick={e => handleSubmit(e, localUserName, localPassword) }
+          onClick={e => handleSubmit(e, localUserName, localPassword, props) }
         >Submit</button>
       </form>
     </div>

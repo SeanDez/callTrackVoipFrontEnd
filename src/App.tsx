@@ -126,7 +126,10 @@ function App() {
     return <AuthView isAuthenticated={isAuthenticated} />
   }
 
-  return <VisitorView isAuthenticated={isAuthenticated} />
+  return <VisitorView 
+            isAuthenticated={isAuthenticated} 
+            setIsAuthenticated={setIsAuthenticated}
+          />
 }
 
 export default App;
