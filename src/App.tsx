@@ -12,6 +12,7 @@ import AuthView from './authView/AuthView';
 import './App.scss';
 
 dotenv.config();
+const { REACT_APP_BACKEND_DOMAIN } = process.env;
 
 /*
   test endpoint to connect both apps
@@ -20,7 +21,7 @@ async function testExpressConnection() {
   console.log('testExpressConnection before try block');
   try {
     console.log('testExpressConnection inside try block');
-    const response = await fetch('http://localhost:6800/', {
+    const response = await fetch(REACT_APP_BACKEND_DOMAIN!, {
       method: 'get',
       mode: 'cors',
       headers: {
@@ -38,12 +39,13 @@ async function testExpressConnection() {
 
 // do an initial request to see if the user is logged in already
 async function seeIfActiveUserSession(setIsAuthenticated: Function) {
-  const authCheckEndpoint = `/authCheck`;
+  const authCheckEndpoint = `${REACT_APP_BACKEND_DOMAIN!}/authCheck`;
 
   try {
     const response = await fetch(authCheckEndpoint, {
       method: 'get',
       mode: 'cors',
+      credentials: 'include',
       headers: {
         'content-type': 'application/json',
       }
@@ -62,7 +64,7 @@ async function seeIfActiveUserSession(setIsAuthenticated: Function) {
 }
 
 async function fetchAndSetCampaignAndCallData(setCampaignCallData: Function) {
-  const accountDataEndpoint = `http://localhost:6800/accountData`;
+  const accountDataEndpoint = `${REACT_APP_BACKEND_DOMAIN!}/accountData`;
   console.log('accountDataEndpoint', accountDataEndpoint)
 
   try {
@@ -106,17 +108,17 @@ function App() {
     If auth, fetch data, assign to state
   */
   useEffect(() => {
-    // seeIfActiveUserSession(setIsAuthenticated);
+    seeIfActiveUserSession(setIsAuthenticated);
 
     // fetch data only if isAuth changes, and is true
     // no await. The promise resolution is unclear
     if (isAuthenticated) {
-      // fetchAndSetCampaignAndCallData(setCampaignCallData);
+      fetchAndSetCampaignAndCallData(setCampaignCallData);
     }
-  }, [isAuthenticated])
+  })
 
   useEffect(() => {
-    // console.log('campaignCallData', campaignCallData)
+    console.log('campaignCallData', campaignCallData)
   }, [campaignCallData]);
 
   // conditional render
